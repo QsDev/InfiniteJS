@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<!-- saved from url=(0073)https://developer.mozilla.org/fr/docs/WebSockets/Writing_WebSocket_server -->
+<html lang="fr" dir="ltr" class="" data-ffo-opensans="true" data-ffo-zillaslab="true"><head prefix="og: http://ogp.me/ns#"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <script async="" src="./Writing a WebSocket server in C# - WebSockets _ MDN_files/analytics.js.download"></script><script>(function(d) { d.className = d.className.replace(/\bno-js/, ''); })(document.documentElement);</script>
+  
+    
+  
+
+  
+  <title>Writing a WebSocket server in C# - WebSockets | MDN</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="index, follow">
+    <link rel="home" href="https://developer.mozilla.org/fr/">
+    <link rel="copyright" href="https://developer.mozilla.org/fr/docs/WebSockets/Writing_WebSocket_server#copyright">
+  
+
+  
+    
+    
+
+    
+          <link href="./Writing a WebSocket server in C# - WebSockets _ MDN_files/mdn-skinny.b2d9061c8deb.css" rel="stylesheet" type="text/css">
+      
+
+    
+  
+
+    
+        <link href="./Writing a WebSocket server in C# - WebSockets _ MDN_files/wiki-skinny.8dcc315e0a59.css" rel="stylesheet" type="text/css">
+    
+
+
+    
+
+  <link href="./Writing a WebSocket server in C# - WebSockets _ MDN_files/locale-fr.7e45c23d7d30.css" rel="stylesheet" type="text/css">
+    <!-- common social tags -->
+    
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://cdn.mdn.mozilla.net/static/img/opengraph-logo.72382e605ce3.png">
+    <meta property="og:site_name" content="Mozilla Developer Network">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="https://cdn.mdn.mozilla.net/static/img/opengraph-logo.72382e605ce3.png">
+    <meta name="twitter:site" content="@MozDevNet">
+    <meta name="twitter:creator" content="@MozDevNet">
+    <link rel="search" type="application/opensearchdescription+xml" href="https://developer.mozilla.org/fr/search/xml" title="Mozilla Developer Network">
+  
+
+  <!-- third-generation iPad with high-resolution Retina display: -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://cdn.mdn.mozilla.net/static/img/favicon144.0d89fc050967.png">
+  <!-- iPhone with high-resolution Retina display: -->
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://cdn.mdn.mozilla.net/static/img/favicon114.57ce6f6d1857.png">
+  <!-- first- and second-generation iPad: -->
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://cdn.mdn.mozilla.net/static/img/favicon72.deefe20a0360.png">
+  <!-- non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+  <link rel="apple-touch-icon-precomposed" href="https://cdn.mdn.mozilla.net/static/img/favicon57.930938a93373.png">
+  <!-- basic favicon -->
+  
+    
+  
+  <link rel="shortcut icon" href="https://cdn.mdn.mozilla.net/static/img/favicon32-local.329e8131018f.png">
+  <!--[if IE]>
+  <meta http-equiv="imagetoolbar" content="no">
+  <script type="text/javascript" src="https://cdn.mdn.mozilla.net/static/build/js/html5shiv.3948ccddab6f.js" charset="utf-8"></script>
+  <![endif]-->
+
+  <script type="text/javascript" src="./Writing a WebSocket server in C# - WebSockets _ MDN_files/font-check.f6a4c7250869.js.download" charset="utf-8"></script>
+
+  
+  <link rel="alternate" type="application/json" href="https://developer.mozilla.org/fr/docs/WebSockets/Writing_WebSocket_server$json">
+  <link rel="canonical" href="https://developer.mozilla.org/fr/docs/WebSockets/Writing_WebSocket_server">
+
+  
+    
+      <link rel="alternate" hreflang="en-US" href="https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_server" title="Writing a WebSocket server in C#">
+    
+      <link rel="alternate" hreflang="es" href="https://developer.mozilla.org/es/docs/WebSockets-840092-dup/Escribiendo_servidor_WebSocket" title="Escribiendo un servidor WebSocket en C#">
+    
+      <link rel="alternate" hreflang="pt-BR" href="https://developer.mozilla.org/pt-BR/docs/WebSockets/Writing_WebSocket_server" title="Escrevendo um servidor WebSocket em C #">
+    
+  
+
+  <!-- document-specific social tags -->
+  <meta property="og:title" content="Writing a WebSocket server in C#">
+  <meta property="og:url" content="https://developer.mozilla.org/fr/docs/WebSockets/Writing_WebSocket_server">
+  <meta name="twitter:url" content="https://developer.mozilla.org/fr/docs/WebSockets/Writing_WebSocket_server">
+  <meta name="twitter:title" content="Writing a WebSocket server in C#">
+  
+  <meta property="og:description" content="Si vous voulez utiliser l&#39;API WebSocket, vous aurez besoin d&#39;un serveur. Dans cet article nous allons vous montrer comment en créer un en C#. Vous pouvez le faire avec n&#39;importe quel langage coté serveur, mais pour rester simple et compréhensible, nous choisissons le language de Microsoft.">
+  <meta name="description" content="Si vous voulez utiliser l&#39;API WebSocket, vous aurez besoin d&#39;un serveur. Dans cet article nous allons vous montrer comment en créer un en C#. Vous pouvez le faire avec n&#39;importe quel langage coté serveur, mais pour rester simple et compréhensible, nous choisissons le language de Microsoft.">
+  <meta name="twitter:description" content="Si vous voulez utiliser l&#39;API WebSocket, vous aurez besoin d&#39;un serveur. Dans cet article nous allons vous montrer comment en créer un en C#. Vous pouvez le faire avec n&#39;importe quel langage coté serveur, mais pour rester simple et compréhensible, nous choisissons le language de Microsoft.">
+  
+
+
+  
+    
+
+<script type="text/javascript">
+
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-36116321-5', 'mozilla.org');
+    ga('set', 'anonymizeIp', true);
+
+    
+
+    // dimension9 == "Section editing"
+    
+        // dimension12 == 'Page Revision'
+        ga('set', 'dimension12', '1274709');
+        // dimension17 == 'English Slug'
+        ga('set', 'dimension17', 'Web/API/WebSockets_API/Writing_WebSocket_server');
+
+    (function() {
+        // http://cfsimplicity.com/61/removing-analytics-clutter-from-campaign-urls
+        var win = window;
+        var removeUtms = function(){
+            var location = win.location;
+            if (location.href.indexOf('utm') != -1 && win.history.replaceState) {
+                win.history.replaceState({}, '', location.pathname);
+            }
+        };
+
+        ga('send', 'pageview', {'hitCallback': removeUtms});
+    })();
+</script>
+
+  
+<script async="" data-manual="true" src="./Writing a WebSocket server in C# - WebSockets _ MDN_files/syntax-prism.66bd4038bff3.js.download"></script></head>
+<body data-slug="WebSockets/Writing_WebSocket_server" contextmenu="edit-history-menu" data-search-url="" class="document   ">
+
+  <script type="text/javascript">
+    // make sure global mdn object exists
+    var mdn = window.mdn || {};
+
+    (function(win) {
+        'use strict';
+
+        
+            (function(){
+  var FLAGS = {
+    'compat_api': false,'kumaediting': false,'line_length': false,'page_move': false,'redesign_beta': false,'redesign_live': false,'registration_disabled': false,'sample_frame': false,'search_suggestions': false,'section_edit': false,'sg_task_completion': false,'spam_admin_override': false,'spam_checks_enabled': true,'spam_spammer_override': false,'spam_submissions_enabled': false,'spam_testing_mode': false,'wiki_samples': true,'wiki_spam_exempted': false,'wiki_spam_training': false
+    },
+    SWITCHES = {
+    'wiki_error_on_delete': false,'wiki_force_immediate_rendering': false,'enable_optimizely': false,'welcome_email': true,'application_ACAO': true,'store_revision_ips': true,'dumb_doc_urls': true,'newsletter': true,'newsletter_article': true,'foundation_callout': false,'helpful-survey-2': true
+    },
+    SAMPLES = {
+    
+    };
+  window.waffle = {
+    "flag_is_active": function waffle_flag(flag_name) {
+      
+      return !!FLAGS[flag_name];
+    },
+    "switch_is_active": function waffle_switch(switch_name) {
+      
+      return !!SWITCHES[switch_name];
+    },
+    "sample_is_active": function waffle_sample(sample_name) {
+      
+      return !!SAMPLES[sample_name];
+    },
+    "FLAGS": FLAGS,
+    "SWITCHES": SWITCHES,
+    "SAMPLES": SAMPLES
+  };
+})();
+
+        
+
+        // This needs to be set before ckeditor.js loads
+        window.CKEDITOR_BASEPATH = '/static/js/libs/ckeditor/build/ckeditor/';
+
+        // Site configuration
+        win.mdn.ckeditor = {};
+        win.mdn.features = {};
+        win.mdn.staticPath = 'https://cdn.mdn.mozilla.net/static/';
+        win.mdn.optimizely = win['optimizely'] || [];
+        win.mdn.wiki = {
+            autosuggestTitleUrl: '/fr/docs/get-documents'
+        };
+        win.mdn.assets = {
+            css: {
+                'editor-content': ['https://cdn.mdn.mozilla.net/static/build/styles/editor-content.4b63a9347c67.css','https://cdn.mdn.mozilla.net/static/build/styles/editor-locale-fr.7e45c23d7d30.css',
+                ]
+            },
+            js: {
+                'syntax-prism': ['https://cdn.mdn.mozilla.net/static/build/js/syntax-prism.66bd4038bff3.js',]
+            }
+        };
+
+        win.mdn.notifications = [];
+
+        
+
+        // interactive editor config
+        win.mdn.interactiveEditor = {
+            siteUrl: "https://developer.mozilla.org",
+            editorUrl: "https://interactive-examples.mdn.mozilla.net"
+        };
+
+    })(this);
+</script>
+    
+  <ul id="nav-access">
+    <li><a href="https://developer.mozilla.org/fr/docs/WebSockets/Writing_WebSocket_server#document-main" id="skip-main">Aller au contenu principal</a></li>
+    <li><a id="skip-language" href="https://developer.mozilla.org/fr/docs/WebSockets/Writing_WebSocket_server#language">Choisir la langue</a></li>
+    <li><a href="https://developer.mozilla.org/fr/docs/WebSockets/Writing_WebSocket_server#q" id="skip-search">Aller à la recherche</a></li>
+  </ul>
+
+  <!-- Header -->
+  <header id="main-header"><div class="center">
+    <a href="https://developer.mozilla.org/fr/" class="logo">Documentation du Web - MDN</a>
+
+    <div id="nav-sec">
+    
+      <ul>
+      <li class="nav-login"><div class="login">
+    
+        
+        <a href="https://developer.mozilla.org/users/github/login/?next=%2Ffr%2Fdocs%2FWebSockets%2FWriting_WebSocket_server" class="login-link js-login-link" data-service="GitHub">
+            Connexion
+            <i class="icon-github" aria-hidden="true"></i>
+        </a>
+    
+</div></li>
+      </ul>
+    
+    </div>
+
+    <nav id="main-nav" class="nav-main" role="navigation"><ul><li class="nav-main-item"><a href="https://developer.mozilla.org/fr/docs/Web">Technologies<i aria-hidden="true" class="icon-caret-down"></i></a>
+      <div class="submenu js-submenu" id="nav-tech-submenu">
+        <div class="submenu-column">
+          <ul>
+            <li><a href="https://developer.mozilla.org/fr/docs/Web/HTML">HTML</a></li>
+            <li><a href="https://developer.mozilla.org/fr/docs/Web/CSS">CSS</a></li>
+            <li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript">JavaScript</a></li>
+            <li><a href="https://developer.mozilla.org/fr/docs/Web/Guide/Graphics">Infographies</a></li>
+            <li><a href="https://developer.mozilla.org/fr/docs/Web/HTTP">HTTP</a></li>
+            <li><a href="https://developer.mozilla.org/fr/docs/Web/API">APIs / DOM</a></li>
+            <li><a href="https://developer.mozilla.org/fr/docs/Mozilla/Add-ons/WebExtensions">Extensions des navigateurs</a></li>
+            <li><a href="https://developer.mozilla.org/fr/docs/Web/MathML">MathML</a></li>
+          </ul>
+        </div></div></li><li class="nav-main-item"><a href="https://developer.mozilla.org/fr/docs/Learn">Guides et références<i aria-hidden="true" class="icon-caret-down"></i></a>
+        <div class="submenu js-submenu" id="nav-learn-submenu" aria-hidden="true" style="z-index: 99998;">
+        <div class="submenu-column">
+          <ul>
+            <li><a href="https://developer.mozilla.org/fr/docs/Learn">Apprendre le développement web</a></li>
+            <li><a href="https://developer.mozilla.org/fr/docs/Web/Tutorials">Tutoriels</a></li>
+            <li><a href="https://developer.mozilla.org/fr/docs/Web/Reference">Références</a></li>
+            <li><a href="https://developer.mozilla.org/fr/docs/Web/Guide">Guides pour développeurs</a></li>
+            <li><a href="https://developer.mozilla.org/fr/docs/Web/Accessibility">Accessibilité</a></li>
+            <li><a href="https://developer.mozilla.org/fr/docs/Games">Développement de jeux</a></li>
+            <li><a href="https://developer.mozilla.org/fr/docs/Web">... plus de docs</a></li>
+          </ul>
+        </div>
+      <button type="button" class="submenu-close transparent"><span class="offscreen">Fermer le sous-menu</span><i aria-hidden="true" class="icon-times"></i></button></div>
+      </li><li class="nav-main-item"><a href="https://developer.mozilla.org/fr/docs/MDN/Feedback">Votre avis<i aria-hidden="true" class="icon-caret-down"></i></a>
+        <div class="submenu js-submenu" id="nav-contact-submenu">
+          <div class="submenu-column">
+            <ul>
+              <li><a href="https://support.mozilla.org/">Demander de l'aide pour Firefox<i aria-hidden="true" class="icon-external-link"></i></a></li>
+              <li><a href="https://stackoverflow.com/">Demander de l'aide pour le développement web<i aria-hidden="true" class="icon-external-link"></i></a></li>
+            </ul>
+            <ul>
+              <li><a href="https://developer.mozilla.org/fr/docs/MDN/Community">Rejoignez la communauté MDN</a></li>
+              <li><a target="_blank" href="https://bugzilla.mozilla.org/form.doc?bug_file_loc=https%3A//developer.mozilla.org/fr/docs/WebSockets/Writing_WebSocket_server">Signaler un problème de contenu<i aria-hidden="true" class="icon-external-link"></i></a></li>
+              <li><a target="_blank" href="https://bugzilla.mozilla.org/form.mdn">Signaler un bug<i aria-hidden="true" class="icon-external-link"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </li><li class="nav-main-search"><form action="https://developer.mozilla.org/fr/search" method="get" role="search">
+        <div class="search-wrap">
+          <label for="main-q" class="offscreen">Rechercher</label>
+          <input type="search" id="main-q" name="q" placeholder="Rechercher" data-value="" value="">
+          <span class="search-trigger"><i aria-hidden="true" class="icon-search"></i></span>
+          <button type="submit" class="offscreen">Rechercher</button>
+        </div>
+      </form></li></ul></nav>
+  </div></header> 
+
+  <!-- Content will go here -->
+  <main id="content">
+      
+  <!-- heading -->
+  <div id="wiki-document-head" class="document-head">
+    <div class="center">
+      
+        <!-- crumbs -->
+        
+  <nav class="crumbs" role="navigation"><ol xmlns:v="http://rdf.data-vocabulary.org/#" aria-label="fils d&#39;ariane">
+    <li typeof="v:Breadcrumb"><a href="https://developer.mozilla.org/fr" rel="v:url" property="v:title">MDN</a></li>
+    
+      <li class="crumb" typeof="v:Breadcrumb"><a href="https://developer.mozilla.org/fr/docs/Web" rel="v:url" property="v:title">Technologies web pour développeurs</a></li>
+    
+      <li class="crumb" typeof="v:Breadcrumb"><a href="https://developer.mozilla.org/fr/docs/Web/API" rel="v:url" property="v:title">Référence Web API</a></li>
+    
+      <li class="crumb" typeof="v:Breadcrumb"><a href="https://developer.mozilla.org/fr/docs/WebSockets" rel="v:url" property="v:title">WebSockets</a></li>
+    
+    <li class="crumb" typeof="v:Breadcrumb" property="v:title">Writing a WebSocket server in C#</li>
+  </ol></nav>
+      
+
+      <!-- action buttons -->
+      <div class="document-actions">
+        
+
+  
+    
+    
+  
+
+  
+    
+  
+
+  
+
+  <ul class="page-buttons">
+      <li><button id="languages-menu" class="transparent" aria-haspopup="true" aria-owns="languages-menu-submenu" aria-expanded="false"><span>Langues</span><i aria-hidden="true" class="icon-language"></i></button>
+
+        <div class="submenu js-submenu" id="languages-menu-submenu">
+          <div class="submenu-column">
+            <ul id="translations">
+              
+                
+                
+                
+                  <li><bdi><a rel="internal" href="https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_server" title="Anglais américain">English (US) (en-US)</a></bdi></li>
+                
+                  <li><bdi><a rel="internal" href="https://developer.mozilla.org/es/docs/WebSockets-840092-dup/Escribiendo_servidor_WebSocket" title="Espagnol">Español (es)</a></bdi></li>
+                
+                  <li><bdi><a rel="internal" href="https://developer.mozilla.org/pt-BR/docs/WebSockets/Writing_WebSocket_server" title="Portugais brésilien">Português (do&nbsp;Brasil) (pt-BR)</a></bdi></li>
+                
+              
+
+              
+            </ul>
+          </div>
+        </div>
+      </li>
+      
+      <li class="page-buttons-edit"><a href="https://developer.mozilla.org/fr/docs/WebSockets/Writing_WebSocket_server$edit" class="button neutral" data-optimizely-hook="button-edit-doc" id="edit-button" rel="nofollow, noindex">Modifier<i aria-hidden="true" class="icon-pencil"></i></a></li>
+      
+
+        
+
+        <li class="page-buttons-advanced"><button id="advanced-menu" class="only-icon" aria-haspopup="true" aria-owns="advanced-menu-submenu" aria-expanded="false"><span>Avancé</span><i aria-hidden="true" class="icon-cog"></i></button>
+        <div class="submenu js-submenu" id="advanced-menu-submenu">
+          <!-- this page -->
+          <div class="submenu-column">
+            <div class="title">Avancé</div>
+            <ul>
+                <li><a href="https://developer.mozilla.org/fr/docs/WebSockets/Writing_WebSocket_server$history" rel="nofollow, noindex">Historique</a></li>
+                
+                
+                
+
+
+                
+
+                
+                
+                
+                <li class="page-print"><a href="https://developer.mozilla.org/fr/docs/WebSockets/Writing_WebSocket_server#" onclick="return window.print();">Imprimer cet article</a></li>
+            </ul>
+          </div>
+        </div>
+  </li></ul>
+      </div>
+
+      <div class="document-title">
+        
+
+        <h1><wbr>Writing a <wbr>Web<wbr>Socket server in C#</h1>
+      </div>
+    </div>
+  </div>
+
+      <div class="center clear">
+      
+
+    <div class="wiki-main-content" id="document-main" role="main"><div class="center">
+      <!-- start the main content container -->
+        <div id="wiki-column-container" class="wiki-right-present wiki-left-closed wiki-left-none">
+
+          <!-- content row with three strips -->
+          <div class="column-container column-container-reverse">
+
+            
+              <!-- TOC, approvals, etc -->
+              <div class="column-strip wiki-column" id="wiki-right">
+              
+              <!-- table of contents -->
+              <div id="toc" class="toc toggleable">
+                <a href="https://developer.mozilla.org/fr/docs/WebSockets/Writing_WebSocket_server#toc" class="title toggler" data-open-icon="icon-caret-right" data-closed-icon="icon-caret-down" aria-haspopup="true">Dans cet article<i class="icon-caret-down"></i></a>
+                <ol class="toggle-container">
+                  <li><a href="https://developer.mozilla.org/fr/docs/WebSockets/Writing_WebSocket_server#Introduction" rel="internal">Introduction</a></li><li><a href="https://developer.mozilla.org/fr/docs/WebSockets/Writing_WebSocket_server#Premiers_pas" rel="internal">Premiers pas</a><ol><li><a href="https://developer.mozilla.org/fr/docs/WebSockets/Writing_WebSocket_server#TcpListener" rel="internal">TcpListener</a></li><li><a href="https://developer.mozilla.org/fr/docs/WebSockets/Writing_WebSocket_server#TcpClient" rel="internal">TcpClient</a></li><li><a href="https://developer.mozilla.org/fr/docs/WebSockets/Writing_WebSocket_server#NetworkStream" rel="internal">NetworkStream</a></li></ol></li><li><a href="https://developer.mozilla.org/fr/docs/WebSockets/Writing_WebSocket_server#Handshaking" rel="internal">Handshaking</a></li><li><a href="https://developer.mozilla.org/fr/docs/WebSockets/Writing_WebSocket_server#Decoding_messages" rel="internal">Decoding messages</a><ol><li><a href="https://developer.mozilla.org/fr/docs/WebSockets/Writing_WebSocket_server#Decoding_algorithm" rel="internal">Decoding algorithm</a></li></ol></li><li><a href="https://developer.mozilla.org/fr/docs/WebSockets/Writing_WebSocket_server#Related" rel="internal">Related</a>
+                </li></ol>
+              </div>
+              
+              </div>
+            
+
+
+            <!-- center: main article content -->
+            <div id="wiki-content" class="column-main wiki-column text-content">
+
+              
+
+              
+              
+
+              
+
+              
+                
+                  
+                    <div class="overheadIndicator translationInProgress"><p>Cette traduction est incomplète. Aidez à  <a href="https://developer.mozilla.org/fr/docs/WebSockets/Writing_WebSocket_server$edit">traduire cet article</a> depuis l'anglais.</p></div>
+                  
+                
+              
+              
+
+              <!-- just the article content -->
+              <article id="wikiArticle">
+                
+                  
+                    
+                    <h2 id="Introduction" class="highlight-spanned"><span class="highlight-span">Introduction</span></h2>
+
+<p>Si vous voulez utiliser l'API WebSocket, vous aurez besoin d'un serveur. Dans cet article nous allons vous montrer comment en créer un en C#. Vous pouvez le faire avec n'importe quel langage coté serveur, mais pour rester simple et compréhensible, nous choisissons le language de Microsoft.</p>
+
+<p>Ce serveur est conforme à la &nbsp;<a title="http://tools.ietf.org/html/rfc6455" href="http://tools.ietf.org/html/rfc6455" class="external external-icon">RFC 6455 </a>donc ne gère que les connections avec Chrome 16, Firefox 11, IE 10 ou plus.</p>
+
+<h2 id="Premiers_pas" class="highlight-spanned"><span class="highlight-span">Premiers pas</span></h2>
+
+<p>WebSocket's communicate over a <a title="http://en.wikipedia.org/wiki/Transmission_Control_Protocol" href="http://en.wikipedia.org/wiki/Transmission_Control_Protocol" class="external external-icon">TCP (Transmission Control Protocol)</a>&nbsp;connection, luckily C# has a <a title="http://msdn.microsoft.com/en-us/library/system.net.sockets.tcplistener.aspx" href="http://msdn.microsoft.com/en-us/library/system.net.sockets.tcplistener.aspx" class="external external-icon">TcpListener</a> class which does as the name suggests. It is in the&nbsp;<em>System.Net.Sockets</em> namespace.</p>
+
+<div class="note">
+<p><span style="line-height: 1.572;">It is a good idea to use the&nbsp;<code>using</code></span><span style="line-height: 1.572;"> keyword to write less. It means you do not have to retype the namespace if you use classes from it.</span></p>
+</div>
+
+<h3 id="TcpListener">TcpListener</h3>
+
+<p>Constructor:</p>
+
+<pre class="brush: cpp line-numbers  language-cpp"><code class=" language-cpp"><span class="token function">TcpListener</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span>Net<span class="token punctuation">.</span>IPAddress localaddr<span class="token punctuation">,</span> int port<span class="token punctuation">)</span><span class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>You set here, where the server will be reachable.</p>
+
+<div class="note">
+<p><span style="line-height: 1.572;">To easily give the expected type to the first parameter, use the&nbsp;</span><code>Parse</code><span style="line-height: 1.572;">&nbsp;static method of&nbsp;</span><code>IPAddress</code><em>.</em></p>
+</div>
+
+<p><span style="line-height: 1.572;">Methods</span><span style="line-height: 1.572;">:</span></p>
+
+<ul>
+ <li><span style="line-height: 1.572;">Start()</span></li>
+ <li><span style="line-height: 1.572;">System.Net.Sockets.<a title="http://msdn.microsoft.com/en-us/library/system.net.sockets.tcpclient.aspx" href="http://msdn.microsoft.com/en-us/library/system.net.sockets.tcpclient.aspx" class="external external-icon">TcpClient</a> AcceptTcpClient()<br>
+  Waits for a Tcp connection, accepts it and returns it as a TcpClient object.</span></li>
+</ul>
+
+<p><span style="line-height: 1.572;">Here's how to use what we have learnt:</span></p>
+
+<pre class="brush: cpp line-numbers  language-cpp"><code class=" language-cpp">​using System<span class="token punctuation">.</span>Net<span class="token punctuation">.</span>Sockets<span class="token punctuation">;</span>
+using System<span class="token punctuation">.</span>Net<span class="token punctuation">;</span>
+using System<span class="token punctuation">;</span>
+
+class <span class="token class-name">Server</span> <span class="token punctuation">{</span>
+    public static void <span class="token function">Main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        TcpListener server <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">TcpListener</span><span class="token punctuation">(</span>IPAddress<span class="token punctuation">.</span><span class="token function">Parse</span><span class="token punctuation">(</span><span class="token string">"127.0.0.1"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">80</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        server<span class="token punctuation">.</span><span class="token function">Start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"Server has started on 127.0.0.1:80.{0}Waiting for a connection..."</span><span class="token punctuation">,</span> Environment<span class="token punctuation">.</span>NewLine<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        TcpClient client <span class="token operator">=</span> server<span class="token punctuation">.</span><span class="token function">AcceptTcpClient</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"A client connected."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="TcpClient"><span style="line-height: 1.572;">TcpClient</span></h3>
+
+<p>Methods:</p>
+
+<ul>
+ <li><code>System.Net.Sockets.<a title="http://msdn.microsoft.com/en-us/library/system.net.sockets.networkstream.aspx" href="http://msdn.microsoft.com/en-us/library/system.net.sockets.networkstream.aspx" class="external external-icon">NetworkStream</a> GetStream()</code><br>
+  Gets the stream which is the communication channel. Both sides of the channel have reading and writing capability.</li>
+</ul>
+
+<p>Properties:</p>
+
+<ul>
+ <li><code>int Available</code><br>
+  This is the Number of bytes of data that has been sent. the Value is zero until <em>NetworkStream.DataAvailable</em> is <em>false</em>.</li>
+</ul>
+
+<h3 id="NetworkStream">NetworkStream</h3>
+
+<p>Methods:</p>
+
+<pre class="brush: cpp line-numbers  language-cpp"><code class=" language-cpp"><span class="token function">Write</span><span class="token punctuation">(</span>Byte<span class="token punctuation">[</span><span class="token punctuation">]</span> buffer<span class="token punctuation">,</span> int offset<span class="token punctuation">,</span> int size<span class="token punctuation">)</span><span class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>Writes bytes from buffer, offset and size determine length of message.</p>
+
+<pre class="line-numbers  language-html"><code class=" language-html">Read(Byte[] buffer, int offset, int size)<span class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>Reads bytes to <em>buffer, offset and size determine the length of the message&nbsp;</em></p>
+
+<p>Let us extend our example.</p>
+
+<pre class="brush: cpp line-numbers  language-cpp"><code class=" language-cpp">TcpClient client <span class="token operator">=</span> server<span class="token punctuation">.</span><span class="token function">AcceptTcpClient</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"A client connected."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+NetworkStream stream <span class="token operator">=</span> client<span class="token punctuation">.</span><span class="token function">GetStream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">//enter to an infinite cycle to be able to handle every change in stream</span>
+<span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token operator">!</span>stream<span class="token punctuation">.</span>DataAvailable<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    Byte<span class="token punctuation">[</span><span class="token punctuation">]</span> bytes <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Byte</span><span class="token punctuation">[</span>client<span class="token punctuation">.</span>Available<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    stream<span class="token punctuation">.</span><span class="token function">Read</span><span class="token punctuation">(</span>bytes<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> bytes<span class="token punctuation">.</span>Length<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="Handshaking" class="highlight-spanned"><span class="highlight-span">Handshaking</span></h2>
+
+<p>When a client connects to a server, it sends a GET request to upgrade the connection to a WebSocket from a simple HTTP request. This is known as handshaking.</p>
+
+<div class="warning">
+<p>This code has a bug. Let’s say <code>client.Available</code> returns 2 because only the GE is available so far. The regex would fail even though the received data is perfectly valid.</p>
+</div>
+
+<pre class="brush: cpp line-numbers  language-cpp"><code class=" language-cpp">using System<span class="token punctuation">.</span>Text<span class="token punctuation">;</span>
+using System<span class="token punctuation">.</span>Text<span class="token punctuation">.</span>RegularExpressions<span class="token punctuation">;</span>
+
+Byte<span class="token punctuation">[</span><span class="token punctuation">]</span> bytes <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Byte</span><span class="token punctuation">[</span>client<span class="token punctuation">.</span>Available<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+stream<span class="token punctuation">.</span><span class="token function">Read</span><span class="token punctuation">(</span>bytes<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> bytes<span class="token punctuation">.</span>Length<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">//translate bytes of request to string</span>
+String data <span class="token operator">=</span> Encoding<span class="token punctuation">.</span>UTF8<span class="token punctuation">.</span><span class="token function">GetString</span><span class="token punctuation">(</span>bytes<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Regex</span><span class="token punctuation">(</span><span class="token string">"^GET"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">IsMatch</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>Creating the response is easier than understanding why you must do it this way.</p>
+
+<p>You must,</p>
+
+<ol>
+ <li>Obtain the value of <em>Sec-WebSocket-Key</em> request header without any leading and trailing whitespace</li>
+ <li>Concatenate it with "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"</li>
+ <li>Compute SHA-1 and Base64 code of it</li>
+ <li>Write it back as value of <em>Sec-WebSocket-Accept</em> response header as part of a HTTP response.</li>
+</ol>
+
+<pre class="brush: cpp line-numbers  language-cpp"><code class=" language-cpp"><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Regex</span><span class="token punctuation">(</span><span class="token string">"^GET"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">IsMatch</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    Byte<span class="token punctuation">[</span><span class="token punctuation">]</span> response <span class="token operator">=</span> Encoding<span class="token punctuation">.</span>UTF8<span class="token punctuation">.</span><span class="token function">GetBytes</span><span class="token punctuation">(</span><span class="token string">"HTTP/1.1 101 Switching Protocols"</span> <span class="token operator">+</span> Environment<span class="token punctuation">.</span>NewLine
+        <span class="token operator">+</span> <span class="token string">"Connection: Upgrade"</span> <span class="token operator">+</span> Environment<span class="token punctuation">.</span>NewLine
+        <span class="token operator">+</span> <span class="token string">"Upgrade: websocket"</span> <span class="token operator">+</span> Environment<span class="token punctuation">.</span>NewLine
+        <span class="token operator">+</span> <span class="token string">"Sec-WebSocket-Accept: "</span> <span class="token operator">+</span> Convert<span class="token punctuation">.</span>ToBase64String <span class="token punctuation">(</span>
+            SHA1<span class="token punctuation">.</span><span class="token function">Create</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>ComputeHash <span class="token punctuation">(</span>
+                Encoding<span class="token punctuation">.</span>UTF8<span class="token punctuation">.</span>GetBytes <span class="token punctuation">(</span>
+                    <span class="token keyword">new</span> <span class="token class-name">Regex</span><span class="token punctuation">(</span><span class="token string">"Sec-WebSocket-Key: (.*)"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Match</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">.</span>Groups<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">.</span>Value<span class="token punctuation">.</span><span class="token function">Trim</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"258EAFA5-E914-47DA-95CA-C5AB0DC85B11"</span>
+                <span class="token punctuation">)</span>
+            <span class="token punctuation">)</span>
+        <span class="token punctuation">)</span> <span class="token operator">+</span> Environment<span class="token punctuation">.</span>NewLine
+        <span class="token operator">+</span> Environment<span class="token punctuation">.</span>NewLine<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    stream<span class="token punctuation">.</span><span class="token function">Write</span><span class="token punctuation">(</span>response<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> response<span class="token punctuation">.</span>Length<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="Decoding_messages" class="highlight-spanned"><span class="highlight-span">Decoding messages</span></h2>
+
+<p>After a successful handshake client can send messages to the server, but now these are encoded.</p>
+
+<p>If we send "MDN", we get these bytes:</p>
+
+<table>
+ <tbody>
+  <tr>
+   <td>129</td>
+   <td>131</td>
+   <td>61</td>
+   <td>84</td>
+   <td>35</td>
+   <td>6</td>
+   <td>112</td>
+   <td>16</td>
+   <td>109</td>
+  </tr>
+ </tbody>
+</table>
+
+<p>- 129:</p>
+
+<table>
+ <thead>
+  <tr>
+   <th scope="col">FIN (Is this the whole message?)</th>
+   <th scope="col">RSV1</th>
+   <th scope="col">RSV2</th>
+   <th scope="col">RSV3</th>
+   <th scope="col">Opcode</th>
+  </tr>
+ </thead>
+ <tbody>
+  <tr>
+   <td>1</td>
+   <td>0</td>
+   <td>0</td>
+   <td>0</td>
+   <td>0x1=0001</td>
+  </tr>
+ </tbody>
+</table>
+
+<p>FIN: You can send your message in frames, but now keep things simple.<br>
+ <span style="line-height: 1.572;">Opcode </span><em>0x1</em><span style="line-height: 1.572;"> means this is a text. </span><a title="http://tools.ietf.org/html/rfc6455#section-5.2" style="line-height: 1.572;" href="http://tools.ietf.org/html/rfc6455#section-5.2" class="external external-icon">Full list of Opcodes</a></p>
+
+<p>- 131:</p>
+
+<p>If the second byte minus 128 is between 0 and 125, this is the length of message. If it is 126, the following 2 bytes (16-bit unsigned integer), if 127, the following 8 bytes (64-bit unsigned integer) are the length.</p>
+
+<div class="note">
+<p>I can take 128, because the first bit is always 1.</p>
+</div>
+
+<p>- 61, 84, 35 and 6 are the bytes of key to decode. Changes every time.</p>
+
+<p>- The remaining encoded bytes are the&nbsp;<span style="line-height: 1.572;">message.</span></p>
+
+<h3 id="Decoding_algorithm">Decoding algorithm</h3>
+
+<p>decoded byte = encoded byte XOR (position of encoded byte Mod 4)th byte of key</p>
+
+<p>Example in C#:</p>
+
+<pre class="brush: cpp line-numbers  language-cpp"><code class=" language-cpp">Byte<span class="token punctuation">[</span><span class="token punctuation">]</span> decoded <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Byte</span><span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+Byte<span class="token punctuation">[</span><span class="token punctuation">]</span> encoded <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Byte</span><span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span> <span class="token punctuation">{</span><span class="token number">112</span><span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">,</span> <span class="token number">109</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+Byte<span class="token punctuation">[</span><span class="token punctuation">]</span> key <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Byte</span><span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span> <span class="token punctuation">{</span><span class="token number">61</span><span class="token punctuation">,</span> <span class="token number">84</span><span class="token punctuation">,</span> <span class="token number">35</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">for</span> <span class="token punctuation">(</span>int i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> encoded<span class="token punctuation">.</span>Length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    decoded<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span>Byte<span class="token punctuation">)</span><span class="token punctuation">(</span>encoded<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">^</span> key<span class="token punctuation">[</span>i <span class="token operator">%</span> <span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="Related" class="highlight-spanned"><span class="highlight-span">Related</span></h2>
+
+<ul>
+ <li><a href="https://developer.mozilla.org/en-US/docs/WebSockets/Writing_WebSocket_servers">Writing WebSocket servers</a></li>
+</ul>
+
+<div style="position: absolute; top: 2209.23px; width: 1px; height: 1px; overflow: hidden; left: -1000px;" id="cke_pastebin">&nbsp;</div>
+                  
+                
+
+              
+                <aside class="helpful-survey" id="helpful-survey">
+                  <p>Cet article vous a-t-il été utile&nbsp;?</p>
+
+                  <div class="helpful-survey-content">
+                    <div class="helpful-survey-buttons">
+                      <button type="button" class="helpful-survey-vote helpful-survey-yes">
+                        <span class="offscreen">Oui</span>
+                        <i class="icon-thumbs-o-up" aria-hidden="true"></i>
+                      </button>
+                      <button type="button" class="helpful-survey-vote helpful-survey-no">
+                        <span class="offscreen">Non</span>
+                        <i class="icon-thumbs-o-down" aria-hidden="true"></i>
+                      </button>
+                    </div>
+
+                    <div class="helpful-survey-thankyou">Merci&nbsp;!</div>
+                  </div>
+                </aside>
+              
+              </article>
+
+              <!-- contributors -->
+              <div class="wiki-block contributors">
+                <h2 class="offscreen">Étiquettes et contributeurs liés au document</h2>
+                
+                
+
+                
+                  <div class="contributors-sub">
+                    <i aria-hidden="true" class="icon-group icon-fw"></i>&nbsp;<strong>Contributeurs à cette page&nbsp;:</strong> 
+        <a href="https://developer.mozilla.org/fr/profiles/Akronae">Akronae</a>, 
+    
+        <a href="https://developer.mozilla.org/fr/profiles/Ilphrin">Ilphrin</a>
+    
+                  </div>
+                
+
+                
+                  <div class="contributors-sub">
+                    <i aria-hidden="true" class="icon-clock-o icon-fw"></i>&nbsp;<strong>Dernière mise à jour par :</strong>
+                    <a href="https://developer.mozilla.org/fr/profiles/Akronae">Akronae</a>,
+                    <time datetime="2017-07-20T05:33:17.773362-07:00">20 juil. 2017 à 05:33:17</time>
+                  </div>
+                
+              </div>
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div> <!-- ends "main-content" -->
+
+    
+      <div class="newsletter-box">
+      <div class="newsletter">
+    <form id="newsletterForm" class="newsletter-form nodisable" name="newsletter-form" action="https://www.mozilla.org/en-US/newsletter/" method="post">
+        <div class="newsletter-head">
+            <h2 class="newsletter-teaser">Recevez le meilleur du développement web</h2>
+            <p class="newsletter-description">Recevez le meilleur de MDN, directement dans votre boîte de réception.</p>
+            
+            <p class="newsletter-lang">Cette lettre d'information est uniquement disponible en anglais pour l'instant.</p>
+            
+        </div>
+
+        <div class="newsletter-fields">
+            <input type="hidden" id="fmt" name="fmt" value="H">
+            <input type="hidden" id="newsletterNewslettersInput" name="newsletters" value="app-dev">
+            <div id="newsletterErrors" class="newsletter-errors"></div>
+
+            <div id="newsletterEmail" class="form-group newsletter-group-email">
+                <label for="newsletterEmailInput" class="form-label offscreen">Adresse électronique</label>
+                <input type="email" id="newsletterEmailInput" name="email" class="form-input newsletter-input-email" required="" placeholder="adresse@example.com" size="30">
+            </div>
+
+            <div id="newsletterPrivacy" class="form-group form-group-agree newsletter-group-privacy hidden">
+                <input type="checkbox" id="newsletterPrivacyInput" name="privacy" required="">
+                <label for="newsletterPrivacyInput">
+                J'accepte la gestion de mes informations personnelles par Mozilla comme indiqué dans cette <a href="https://www.mozilla.org/privacy/">politique de confidentialité</a>.
+                </label>
+            </div>
+            <div id="newsletterSubmit" class="newsletter-group-submit">
+                <button id="newsletter-submit" type="submit" class="button neutral newsletter-submit">S'inscrire maintenant</button>
+            </div>
+        </div>
+    </form>
+    <div id="newsletterThanks" class="newsletter-thanks hidden">
+        <h2>Merci&nbsp;! Veuillez vérifier votre boîte de réception afin de confirmer votre inscription.</h2>
+        <p>Si vous n'avez pas déjà confirmé d'inscription à une lettre d'information Mozilla, vous devrez valider cette inscription. Veuillez vérifier votre boîte de réception, éventuellement vos messages indésirables, pour consulter le message que nous vous avons envoyé.
+        </p>
+    </div>
+    <button id="newsletterHide" type="button" class="only-icon newsletter-hide"><span>Masquer l'inscription à la lettre d'information</span><i aria-hidden="true" class="icon-times"></i></button>
+</div>
+      </div>
+    
+
+  <menu type="context" id="edit-history-menu">
+    <menuitem data-action="/fr/docs/WebSockets/Writing_WebSocket_server$edit" label="Modifier la page"></menuitem>
+    <menuitem data-action="/fr/docs/WebSockets/Writing_WebSocket_server$history" label="Voir l&#39;historique de la page"></menuitem>
+  </menu>
+
+      </div>
+  </main>
+
+  <!-- redesign notices -->
+  
+  <!-- Footer -->
+    <footer id="nav-footer" class="nav-footer">
+      <div class="center">
+          <a href="https://developer.mozilla.org/fr/" class="nav-footer-logo">Documentation du Web - MDN</a>
+          <div class="footer-group footer-group-mdn">
+            <h2 class="footer-title">MDN</h2>
+            <ul class="footer-list">
+              <li><a href="https://developer.mozilla.org/fr/docs/Web">Technologies web</a></li>
+              <li><a href="https://developer.mozilla.org/fr/docs/Learn">Apprendre le développement web</a></li>
+              <li><a href="https://developer.mozilla.org/docs/MDN/About">À propos de MDN</a></li>
+              <li><a href="https://developer.mozilla.org/fr/docs/MDN/Feedback">Votre avis</a></li>
+              <li class="footer-social"><a href="https://twitter.com/mozdevnet" class="only-icon"><i aria-hidden="true" class="icon-twitter"></i> <span>Twitter</span></a></li>
+              <li class="footer-social"><a href="https://github.com/mdn/" class="only-icon"><i aria-hidden="true" class="icon-github"></i> <span>GitHub</span></a></li>
+            </ul>
+          </div>
+
+          <a href="https://mozilla.org/" class="nav-footer-mozilla">Mozilla</a>
+          <div class="footer-group footer-group-mozilla">
+            <h2 class="footer-title">Mozilla</h2>
+            <ul class="footer-list">
+              <li><a href="https://www.mozilla.org/about/">À propos</a></li>
+              <li><a href="https://www.mozilla.org/contact/">Nous contacter</a></li>
+              <li><a href="https://donate.mozilla.org/?utm_source=developer.mozilla.org&amp;utm_medium=referral&amp;utm_content=footer">Faire un don</a></li>
+              <li><a href="https://www.mozilla.org/firefox/?utm_source=developer.mozilla.org&amp;utm_campaign=footer&amp;utm_medium=referral">Firefox</a></li>
+              <li class="footer-social"><a href="https://twitter.com/mozilla" class="only-icon"><i aria-hidden="true" class="icon-twitter"></i> <span>Twitter</span></a></li>
+              <li class="footer-social"><a href="https://www.facebook.com/mozilla" class="only-icon"><i aria-hidden="true" class="icon-facebook"></i> <span>Facebook</span></a></li>
+              <li class="footer-social"><a href="https://www.instagram.com/mozillagram/" class="only-icon"><i aria-hidden="true" class="icon-instagram"></i> <span>Instagram</span></a></li>
+            </ul>
+          </div>
+
+          
+            
+  
+    <form class="languages go" method="get" action="https://developer.mozilla.org/fr/docs/Web">
+      <label for="language">Autres langues&nbsp;:</label>
+      <select id="language" class="wiki-l10n" name="next" dir="ltr">
+        <option title="Français" value="/fr/docs/WebSockets/Writing_WebSocket_server" selected="">
+          Français (fr)
+        </option>
+        
+          <option title="Anglais américain" value="/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_server">
+            English (US) (en-US)
+          </option>
+          <option title="Espagnol" value="/es/docs/WebSockets-840092-dup/Escribiendo_servidor_WebSocket">
+            Español (es)
+          </option>
+          <option title="Portugais brésilien" value="/pt-BR/docs/WebSockets/Writing_WebSocket_server">
+            Português (do&nbsp;Brasil) (pt-BR)
+          </option>
+      </select>
+      <noscript>&lt;button type="submit"&gt;OK&lt;/button&gt;</noscript>
+    </form>
+  
+
+          
+
+          
+            <ul class="footer-tos">
+              <li><a href="https://www.mozilla.org/about/legal/terms/mozilla">Conditions d'utilisation</a></li>
+              <li><a href="https://www.mozilla.org/privacy/websites/">Confidentialité</a></li>
+              <li><a href="https://www.mozilla.org/privacy/websites/#cookies">Cookies</a></li>
+            </ul>
+
+            <div class="contentinfo">
+              <p>© 2005-2017 Mozilla et contributeurs individuels.</p> <p>Tous les contenus sont disponibles sous <a href="https://developer.mozilla.org/en-US/docs/MDN/About#Copyrights_and_licenses">ces licences</a>.</p>
+            </div>
+          
+      </div>
+    </footer> 
+
+  <!-- site js -->
+  
+    
+    <!--[if lte IE 8]><script type="text/javascript" src="https://cdn.mdn.mozilla.net/static/build/js/selectivizr.091e18cf669b.js" charset="utf-8"></script><![endif]-->
+
+    
+    <script type="text/javascript" src="./Writing a WebSocket server in C# - WebSockets _ MDN_files/javascript.faca50b0cea3.js.download"></script>
+    <script type="text/javascript" src="./Writing a WebSocket server in C# - WebSockets _ MDN_files/main.0a73d7502ddf.js.download" charset="utf-8"></script>
+    
+      <script>
+        if(window.mdn && mdn.analytics) mdn.analytics.trackOutboundLinks();
+      </script>
+    
+    
+
+  
+
+    
+        <script async="" type="text/javascript" src="./Writing a WebSocket server in C# - WebSockets _ MDN_files/wiki-skinny.2187d581918b.js.download" charset="utf-8"></script>
+    
+
+
+
+  
+
+  
+
+  
+
+  
+    <script async="" type="text/javascript" src="./Writing a WebSocket server in C# - WebSockets _ MDN_files/newsletter.7cd3274169f2.js.download" charset="utf-8"></script>
+  
+
+
+
+</body></html>

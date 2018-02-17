@@ -1,0 +1,232 @@
+﻿<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6066B21D-6D6E-4903-8491-CF0C928502FC}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TypeScriptHTMLApp1</RootNamespace>
+    <AssemblyName>TypeScriptHTMLApp1</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>2.6</TypeScriptToolsVersion>
+    <Use64BitIISExpress />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptModuleKind>CommonJS</TypeScriptModuleKind>
+    <TypeScriptRemoveComments>True</TypeScriptRemoveComments>
+    <TypeScriptOutFile />
+    <TypeScriptOutDir />
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>False</TypeScriptSourceMap>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="components\Canvas3D\style.less" />
+    <Content Include="components\ClearTabe\Style.less" />
+    <Content Include="components\HeavyTable\data.json" />
+    <Content Include="components\HeavyTable\style.scss" />
+    <Content Include="components\Login\css\Writing a WebSocket server in C# - WebSockets _ MDN_files\analytics.js.download" />
+    <Content Include="components\Login\css\Writing a WebSocket server in C# - WebSockets _ MDN_files\font-check.f6a4c7250869.js.download" />
+    <Content Include="components\Login\css\Writing a WebSocket server in C# - WebSockets _ MDN_files\javascript.faca50b0cea3.js.download" />
+    <Content Include="components\Login\css\Writing a WebSocket server in C# - WebSockets _ MDN_files\main.0a73d7502ddf.js.download" />
+    <Content Include="components\Login\css\Writing a WebSocket server in C# - WebSockets _ MDN_files\newsletter.7cd3274169f2.js.download" />
+    <Content Include="components\Login\css\Writing a WebSocket server in C# - WebSockets _ MDN_files\syntax-prism.66bd4038bff3.js.download" />
+    <Content Include="components\Login\css\Writing a WebSocket server in C# - WebSockets _ MDN_files\wiki-skinny.2187d581918b.js.download" />
+    <Content Include="components\QSidebar\style.less" />
+    <Content Include="components\StrechyButton\gen .bat" />
+    <Content Include="InfiniteJS\LICENSE" />
+    <Content Include="style\fonts\fabric\SegoeUI-WestEuropean\SegoeUI-Light.ttf" />
+    <Content Include="style\fonts\fabric\SegoeUI-WestEuropean\SegoeUI-Light.woff" />
+    <Content Include="style\fonts\fabric\SegoeUI-WestEuropean\segoeui-regular.ttf" />
+    <Content Include="style\fonts\fabric\SegoeUI-WestEuropean\segoeui-regular.woff" />
+    <Content Include="style\fonts\fabric\SegoeUI-WestEuropean\SegoeUI-Semilight.ttf" />
+    <Content Include="style\fonts\fabric\SegoeUI-WestEuropean\segoeui-semilight.woff" />
+    <Content Include="style\fonts\fontawesome-webfontd41d.eot" />
+    <Content Include="style\fonts\fontawesome-webfonte0a5.eot" />
+    <Content Include="style\fonts\fontawesome-webfonte0a5.ttf" />
+    <Content Include="style\fonts\fontawesome-webfonte0a5.woff" />
+    <Content Include="style\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="style\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="style\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="style\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="style\fonts\ODelI1aHBYDBqgeIAH2zlAC5S7WFEeHRqL6ObGQGT8o.woff2" />
+    <Content Include="style\fonts\ODelI1aHBYDBqgeIAH2zlC2Q8seG17bfDXYR_jUsrzg.woff2" />
+    <Content Include="style\fonts\ODelI1aHBYDBqgeIAH2zlFjqPhnWKseBf12Mt9_m7kc.woff2" />
+    <Content Include="style\fonts\ODelI1aHBYDBqgeIAH2zlMgmx_L9kV4w6g8dYQOLFUI.woff2" />
+    <Content Include="style\fonts\ODelI1aHBYDBqgeIAH2zlMODs9238LZG2v64UiBIjng.woff2" />
+    <Content Include="style\fonts\ODelI1aHBYDBqgeIAH2zlNOAHFN6BivSraYkjhveRHY.woff2" />
+    <Content Include="style\fonts\ODelI1aHBYDBqgeIAH2zlNV_2ngZ8dMf8fLgjYEouxg.woff2" />
+    <Content Include="style\fonts\PTS-bold.woff" />
+    <Content Include="style\fonts\PTS-webfont.woff" />
+    <Content Include="style\fonts\PTS55F-webfont.eot" />
+    <Content Include="style\fonts\PTS55F-webfont.ttf" />
+    <Content Include="style\fonts\PTS55F-webfont.woff" />
+    <Content Include="style\fonts\PTS75F-webfont.eot" />
+    <Content Include="style\fonts\PTS75F-webfont.ttf" />
+    <Content Include="style\fonts\PTS75F-webfont.woff" />
+    <Content Include="style\fonts\segoeui-regular.ttf" />
+    <Content Include="style\fonts\segoeui-regular.woff" />
+    <Content Include="style\fonts\segoeui-semibold.woff" />
+    <Content Include="style\fonts\toadOcfmlt9b38dHJxOBGDovqjS_dXPZszO_XltPdNg.woff2" />
+    <Content Include="style\fonts\toadOcfmlt9b38dHJxOBGEo0As1BFRXtCDhS66znb_k.woff2" />
+    <Content Include="style\fonts\toadOcfmlt9b38dHJxOBGFxe-GPfKKFmiXaJ_Q0GFr8.woff2" />
+    <Content Include="style\fonts\toadOcfmlt9b38dHJxOBGH2tx1iQUBYLA4fTJZSoO3U.woff2" />
+    <Content Include="style\fonts\toadOcfmlt9b38dHJxOBGHvBSgOUtlSCpvi6_8Wv308.woff2" />
+    <Content Include="style\fonts\toadOcfmlt9b38dHJxOBGJaoTU19aO7Bfv-FLfOt5YM.woff2" />
+    <Content Include="style\fonts\toadOcfmlt9b38dHJxOBGO4f2SQTi4oYi3kh3bYmG2Y.woff2" />
+    <Content Include="style\Main.scss" />
+    <Content Include="sys\Primes.json" />
+    <Content Include="README.md" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="assets\common\bg.png" />
+    <Content Include="components\app.css" />
+    <Content Include="components\Canvas3D\dom.html" />
+    <Content Include="components\Canvas3D\Reset.css" />
+    <Content Include="components\Canvas3D\style.css" />
+    <Content Include="components\ClearTabe\dom.html" />
+    <Content Include="components\ClearTabe\style.css" />
+    <Content Include="components\HeavyTable\dom.htm" />
+    <Content Include="components\HeavyTable\normalize.css" />
+    <Content Include="components\HeavyTable\style.css" />
+    <Content Include="components\KlasikalLogin\index.htm" />
+    <Content Include="components\KlasikalLogin\style.css" />
+    <Content Include="components\Login\css\avatar1.png" />
+    <Content Include="components\Login\css\avatar2 %281%29.png" />
+    <Content Include="components\Login\css\avatar2.png" />
+    <Content Include="components\Login\css\avatar3.png" />
+    <Content Include="components\Login\css\avatar4.png" />
+    <Content Include="components\Login\css\avatar5.png" />
+    <Content Include="components\Login\css\avatar6.png" />
+    <Content Include="components\Login\css\img_avatar4.png" />
+    <Content Include="components\Login\css\w3.css" />
+    <Content Include="components\Login\css\Writing a WebSocket server in C# - WebSockets _ MDN.html" />
+    <Content Include="components\Login\css\Writing a WebSocket server in C# - WebSockets _ MDN_files\locale-fr.7e45c23d7d30.css" />
+    <Content Include="components\Login\css\Writing a WebSocket server in C# - WebSockets _ MDN_files\mdn-skinny.b2d9061c8deb.css" />
+    <Content Include="components\Login\css\Writing a WebSocket server in C# - WebSockets _ MDN_files\wiki-skinny.8dcc315e0a59.css" />
+    <Content Include="components\Login\login.html" />
+    <Content Include="components\QSidebar\dom.html" />
+    <Content Include="components\QSidebar\style.css" />
+    <Content Include="components\QUI\dom.html" />
+    <Content Include="components\QUI\Reset.css" />
+    <Content Include="components\QUI\style.css" />
+    <Content Include="components\StrechyButton\dom.html" />
+    <Content Include="components\StrechyButton\style.css" />
+    <Content Include="components\UniqueForm\dom.html" />
+    <Content Include="components\UniqueForm\style.css" />
+    <Content Include="InfiniteJS\.gitattributes" />
+    <Content Include="InfiniteJS\.gitignore" />
+    <Content Include="style\aapp.css" />
+    <Content Include="style\app.css" />
+    <Content Include="style\bootstrap.min.css" />
+    <Content Include="style\fonts\fontawesome-webfonte0a5.svg" />
+    <Content Include="style\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="style\hbar.css" />
+    <Content Include="style\main.css" />
+    <Content Include="style\site.css" />
+    <Content Include="templates\UITemplates.html" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="components\ActionButton\script.ts" />
+    <TypeScriptCompile Include="components\Canvas3D\script.ts" />
+    <TypeScriptCompile Include="components\ClearTabe\script.ts" />
+    <TypeScriptCompile Include="components\HeavyTable\script.ts" />
+    <TypeScriptCompile Include="components\QSidebar\script.ts" />
+    <TypeScriptCompile Include="components\QUI\script.ts" />
+    <TypeScriptCompile Include="components\StrechyButton\script.ts" />
+    <TypeScriptCompile Include="components\UniqueForm\script.ts" />
+    <TypeScriptCompile Include="lib\defs.d.ts" />
+    <TypeScriptCompile Include="lib\Module.ts" />
+    <TypeScriptCompile Include="lib\Upgrade.ts" />
+    <TypeScriptCompile Include="main.ts" />
+    <TypeScriptCompile Include="sys\AI.ts" />
+    <TypeScriptCompile Include="sys\Consts.ts" />
+    <TypeScriptCompile Include="sys\context.ts" />
+    <TypeScriptCompile Include="sys\Corelib.ts" />
+    <TypeScriptCompile Include="sys\Critere.ts" />
+    <TypeScriptCompile Include="sys\db.ts" />
+    <TypeScriptCompile Include="sys\defs.ts" />
+    <TypeScriptCompile Include="sys\Encoding.ts" />
+    <TypeScriptCompile Include="sys\Facebook.ts" />
+    <TypeScriptCompile Include="sys\Filters.ts" />
+    <TypeScriptCompile Include="sys\Jobs.ts" />
+    <TypeScriptCompile Include="sys\QModel.ts" />
+    <TypeScriptCompile Include="sys\Services.ts" />
+    <TypeScriptCompile Include="sys\System.ts" />
+    <TypeScriptCompile Include="sys\UI.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>10202</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:61329/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
