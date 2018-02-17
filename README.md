@@ -3,18 +3,21 @@
 
 #Technologies Implimented
   - MVVM (Databinding with a new way)
+  - JIT (Just In Time execution)
+  - OTE (One Time Execution)
   - Filters
   - Template
   - Reflectection 
   - module Security
   - Component & Controls
   - Encryption
-  - Json (Fully Solution for Objects)
-  - Eval Code 
+  - Json (Fully Solution for Recursive Objects -Serialization & Deserialization)
+  - Eval Code
   - Api & Commands
   - Application Architecture
   - Observable Objects
   - Secure Authentication Over Http
+  - 
 
 # #Example!
 We are Going to Create [2 files][df1]:
@@ -85,4 +88,8 @@ in our code we go to impliment this
     //  parentControl.Add(personView);      
     //**********************************************************
 ```
+
+
+
+
 * this is the basic way how to create simple template but there are many way to do that 
